@@ -16,7 +16,7 @@ RSpec.describe NightWriter do
     end
   end
   describe '#get_file_text' do
-    it "can return the read file's character length" do
+    it "can return the read file's text" do
       allow(File).to receive(:readlines).and_return(["hello world\n"])
       night_writer = NightWriter.new("message.txt", "braille.txt")
       expect(night_writer.get_file_text).to eq("hello world")
