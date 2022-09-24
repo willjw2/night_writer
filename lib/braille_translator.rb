@@ -47,6 +47,3 @@ class BrailleTranslator
     braille_string
   end
 end
-
-braille_translator = BrailleTranslator.new
-require "pry"; binding.pry
