@@ -20,6 +20,7 @@ class NightWriter < BrailleTranslator
 
   def write_to_file
     braille_string = char_to_braille(self.get_file_text)
+
     File.open(@braille_file, "w+") do |file|
       file.write(braille_string)
       file.close
