@@ -30,6 +30,8 @@ RSpec.describe BrailleTranslator do
       braille_char_num = 5
       expect(translator.create_braille_string(braille_lines, braille_char_num)).to eq("0.0.0.0.0.\n00.00.0..0\n....0.0.0.")
     end
+  end
+  describe '#create_long_braille_string' do
     it "can ensure no line of the braille file is wider than 40 Braille characters" do
       translator = BrailleTranslator.new
       braille_lines ={1 => "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.",

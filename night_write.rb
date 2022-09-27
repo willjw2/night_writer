@@ -13,3 +13,5 @@ night_writer = NightWriter.new(text_file, braille_file)
 night_writer.write_to_file
 
 require "pry"; binding.pry
+
+#ruby night_write.rb message.txt braille.txt
