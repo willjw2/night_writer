@@ -53,9 +53,11 @@ RSpec.describe NightReader do
   end
   describe '#write_to_file' do
     it "can write to a file" do
-      allow(NightReader).to receive(:braille_to_text).and_return("hello")
-      night_reader = NightReader.new("braille.txt", "original_message.txt")
-      expect(night_reader.write_to_file).to eq(nil)
+      night_reader = NightReader.new("braille.txt", "test_message.txt")
+      # allow(BrailleTranslator).to receive(:braille_to_text).and_return("hello")
+      # allow(NightReader).to receive(:braille_to_text).and_return("hello")
+      allow(night_reader).to receive(:braille_to_text).and_return("hello")
+      expect(night_reader.write_to_file).to eq(true)
     end
   end
 end
