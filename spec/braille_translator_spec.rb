@@ -39,4 +39,11 @@ RSpec.describe BrailleTranslator do
       expect(translator.create_braille_string(braille_lines, braille_char_num).length).to eq(251)
     end
   end
+  describe '#braille_to_text' do
+    it "can convert a braille array into a string of text" do
+      translator = BrailleTranslator.new
+      text = translator.braille_to_text([["0.", "0.", "0.", "0.", "0."], ["00", ".0", "0.", "0.", ".0"], ["..", "..", "0.", "0.", "0."]])
+      expect(text).to eq("hello")
+    end
+  end
 end
