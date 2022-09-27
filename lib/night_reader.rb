@@ -34,6 +34,22 @@ class NightReader < BrailleTranslator
     braille_array
   end
 
+  def combine_braille_array(braille_array)
+    if braille_array.length > 3
+      braille_array[3..].each.with_index(4) do |line, index|
+        if index % 3 == 1
+          braille_array[0] += line
+        elsif index % 3 == 2
+          braille_array[1] += line
+        elsif index % 3 == 0
+          braille_array[2] += line
+        end
+      end
+      combined_array = [braille_array[0], braille_array[1], braille_array[2]]
+    end
+    combined_array
+  end
+
 end
 
 #ruby lib/night_read.rb braille.txt new_message.txt
