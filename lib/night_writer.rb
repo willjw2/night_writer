@@ -25,6 +25,8 @@ class NightWriter < BrailleTranslator
       file.write(braille_string)
       file.close
     end
+    print_confirmation
+    true
   end
 end
 
