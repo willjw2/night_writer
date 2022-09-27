@@ -10,6 +10,6 @@ text_file = ARGV[0]
 braille_file = ARGV[1]
 
 night_writer = NightWriter.new(text_file, braille_file)
-night_writer.print_confirmation
+night_writer.write_to_file
 
 require "pry"; binding.pry
