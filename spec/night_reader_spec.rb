@@ -44,5 +44,12 @@ RSpec.describe NightReader do
       expect(night_reader.combine_braille_array([[".."], [".."], [".."], ["00"], ["00"], ["00"]])).to eq([["..", "00"], ["..", "00"], ["..", "00"]])
     end
   end
+  describe '#get_file_characters' do
+    it "can return the number of braille characters in a file" do
+      allow(File).to receive(:readlines).and_return(["0.0.0.0.0.\n00.00.0..0\n....0.0.0."])
+      night_reader = NightReader.new("braille.txt", "original_message.txt")
+      expect(night_reader.get_file_characters).to eq(5)
+    end
+  end
   
 end
