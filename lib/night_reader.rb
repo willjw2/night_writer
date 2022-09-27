@@ -56,6 +56,7 @@ class NightReader < BrailleTranslator
       file.write(text_translation)
       file.close
     end
+    print_confirmation
     true
   end
 end
