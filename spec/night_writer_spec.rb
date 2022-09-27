@@ -27,7 +27,7 @@ RSpec.describe NightWriter do
     it "can write a braille translation to a file" do
       allow(File).to receive(:readlines).and_return(["hello world\n"])
       night_writer = NightWriter.new("message.txt", "braille.txt")
-      expect(night_writer.write_to_file).to eq(nil)
+      expect(night_writer.write_to_file).to eq(true)
     end
   end
 end
