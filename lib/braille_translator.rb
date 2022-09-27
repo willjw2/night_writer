@@ -88,26 +88,26 @@ class BrailleTranslator
         braille_lines[2] += @lowercase[char][1]
         braille_lines[3] += @lowercase[char][2]
         braille_char_num += 1
-      # elsif char.ord.between?(65, 90)
-      #   braille_lines[1] += @uppercase[char][0]
-      #   braille_lines[2] += @uppercase[char][1]
-      #   braille_lines[3] += @uppercase[char][2]
-      #   braille_char_num += 2
-      # elsif char.ord.between?(48, 57)
-      #   if index - 1 >= 0 && text[index-1].ord.between?(48, 57)
-      #     braille_lines[1] += @numbers[char][0]
-      #     braille_lines[2] += @numbers[char][1]
-      #     braille_lines[3] += @numbers[char][2]
-      #     braille_char_num += 1
-      #   else
-      #     braille_lines[1] += @numbers["#"][0]
-      #     braille_lines[2] += @numbers["#"][1]
-      #     braille_lines[3] += @numbers["#"][2]
-      #     braille_lines[1] += @numbers[char][0]
-      #     braille_lines[2] += @numbers[char][1]
-      #     braille_lines[3] += @numbers[char][2]
-      #     braille_char_num += 2
-      #   end
+      elsif char.ord.between?(65, 90)
+        braille_lines[1] += @uppercase[char][0]
+        braille_lines[2] += @uppercase[char][1]
+        braille_lines[3] += @uppercase[char][2]
+        braille_char_num += 2
+      elsif char.ord.between?(48, 57)
+        if index - 1 >= 0 && text[index-1].ord.between?(48, 57)
+          braille_lines[1] += @numbers[char][0]
+          braille_lines[2] += @numbers[char][1]
+          braille_lines[3] += @numbers[char][2]
+          braille_char_num += 1
+        else
+          braille_lines[1] += @numbers["#"][0]
+          braille_lines[2] += @numbers["#"][1]
+          braille_lines[3] += @numbers["#"][2]
+          braille_lines[1] += @numbers[char][0]
+          braille_lines[2] += @numbers[char][1]
+          braille_lines[3] += @numbers[char][2]
+          braille_char_num += 2
+        end
       end
     end
     create_braille_string(braille_lines, braille_char_num)
