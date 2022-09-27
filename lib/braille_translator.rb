@@ -145,6 +145,15 @@ class BrailleTranslator
     end
     braille_string
   end
+
+  def braille_to_text(braille_array)
+    text_string = String.new
+    braille_array[0].length.times.with_index do |index|
+      letter = @lowercase.key([braille_array[0][index], braille_array[1][index], braille_array[2][index]])
+      text_string << letter
+    end
+    text_string
+  end
 end
 
 # translator = BrailleTranslator.new
