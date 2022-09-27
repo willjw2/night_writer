@@ -12,17 +12,14 @@ class NightReader < BrailleTranslator
     puts "Created '#{@text_file}' containing #{get_file_characters} characters"
   end
 
-  # def get_file_braille
-  #   #WIP
-  #   read_lines = File.readlines(@braille_file)
-  #   read_text = read_lines.join
-  #   read_text.gsub!("\n", " ")
-  # end
-
   def get_file_characters
     read_lines = File.readlines(@braille_file)
     read_text = read_lines.join
     read_text.gsub!("\n", " ")
     file_characters = (read_text.length - read_text.count(" ")) / 6
   end
+
+
 end
+
+#ruby lib/night_read.rb braille.txt new_message.txt
