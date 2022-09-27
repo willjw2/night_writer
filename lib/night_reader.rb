@@ -19,6 +19,20 @@ class NightReader < BrailleTranslator
     file_characters = (read_text.length - read_text.count(" ")) / 6
   end
 
+  def get_file_braille_array
+    #WIP
+    read_lines = File.readlines(@braille_file)
+    read_text = read_lines.join
+    read_text.gsub!("\n", " ")
+    braille_array = read_text.split
+    braille_array = braille_array.map do |braille|
+      braille.chars.each_slice(2).map(&:join)
+    end
+    if braille_array.length > 3
+      braille_array = combine_braille_array(braille_array)
+    end
+    braille_array
+  end
 
 end
 
