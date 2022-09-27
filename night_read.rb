@@ -14,4 +14,4 @@ night_reader.write_to_file
 
 require "pry"; binding.pry
 
-#ruby lib/night_read.rb braille.txt new_message.txt
+#ruby night_read.rb braille.txt new_message.txt

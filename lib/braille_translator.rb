@@ -58,12 +58,11 @@ class BrailleTranslator
       "Y" => ["..00", "...0", ".000"],
       "Z" => ["..0.", "...0", ".000"],
     }
-    #WIP
-    @contractions = {
-      " a " => ["..0...", "......", "......"],
-      " but " => ["..0...", "..0...", "......"],
-      " can " => ["..00..", "......", "......"]
-    }
+    # @contractions = {
+    #   " a " => ["..0...", "......", "......"],
+    #   " but " => ["..0...", "..0...", "......"],
+    #   " can " => ["..00..", "......", "......"]
+    # }
     @numbers = {
       "1" => ["0.", "..", ".."],
       "2" => ["0.", "0.", ".."],
@@ -80,38 +79,49 @@ class BrailleTranslator
   end
 
   def char_to_braille(text)
-    braille_lines = {1 => "", 2 => "", 3 => ""}
-    braille_char_num = 0
-
+    @braille_lines = {1 => "", 2 => "", 3 => ""}
+    @braille_char_num = 0
     text.each_char.with_index do |char, index|
       if char.ord.between?(97, 122) || char.ord == 32
-        braille_lines[1] += @lowercase[char][0]
-        braille_lines[2] += @lowercase[char][1]
-        braille_lines[3] += @lowercase[char][2]
-        braille_char_num += 1
-      # elsif char.ord.between?(65, 90)
-      #   braille_lines[1] += @uppercase[char][0]
-      #   braille_lines[2] += @uppercase[char][1]
-      #   braille_lines[3] += @uppercase[char][2]
-      #   braille_char_num += 2
-      # elsif char.ord.between?(48, 57)
-      #   if index - 1 >= 0 && text[index-1].ord.between?(48, 57)
-      #     braille_lines[1] += @numbers[char][0]
-      #     braille_lines[2] += @numbers[char][1]
-      #     braille_lines[3] += @numbers[char][2]
-      #     braille_char_num += 1
-      #   else
-      #     braille_lines[1] += @numbers["#"][0]
-      #     braille_lines[1] += @numbers["#"][1]
-      #     braille_lines[1] += @numbers["#"][2]
-      #     braille_lines[1] += @numbers[char][0]
-      #     braille_lines[2] += @numbers[char][1]
-      #     braille_lines[3] += @numbers[char][2]
-      #     braille_char_num += 2
-      #   end
+        lowercase_to_braille(char)
+      elsif char.ord.between?(65, 90)
+        capitals_to_braille(char)
+      elsif char.ord.between?(48, 57)
+        numbers_to_braille(char, index, text)
       end
     end
-    create_braille_string(braille_lines, braille_char_num)
+    create_braille_string(@braille_lines, @braille_char_num)
+  end
+
+  def lowercase_to_braille(char)
+    @braille_lines[1] += @lowercase[char][0]
+    @braille_lines[2] += @lowercase[char][1]
+    @braille_lines[3] += @lowercase[char][2]
+    @braille_char_num += 1
+    @braille_lines
+  end
+
+  def capitals_to_braille(char)
+    @braille_lines[1] += @uppercase[char][0]
+    @braille_lines[2] += @uppercase[char][1]
+    @braille_lines[3] += @uppercase[char][2]
+    @braille_char_num += 2
+    @braille_lines
+  end
+
+  def numbers_to_braille(char, index, text)
+    if index - 1 >= 0 && text[index-1].ord.between?(48, 57)
+      @braille_lines[1] += @numbers[char][0]
+      @braille_lines[2] += @numbers[char][1]
+      @braille_lines[3] += @numbers[char][2]
+      @braille_char_num += 1
+    else
+      @braille_lines[1] += "#{@numbers["#"][0]}#{@numbers[char][0]}"
+      @braille_lines[2] += "#{@numbers["#"][1]}#{@numbers[char][1]}"
+      @braille_lines[3] += "#{@numbers["#"][2]}#{@numbers[char][2]}"
+      @braille_char_num += 2
+    end
+    @braille_lines #this is only needed for testing
   end
 
   def create_braille_string(braille_lines, braille_char_num)
@@ -142,30 +152,34 @@ class BrailleTranslator
   end
 
   def braille_to_text(braille_array)
-    text_string = String.new
+    @text_string = String.new
+    @uppercase_switch, @number_switch = false, false
     braille_array[0].length.times.with_index do |index|
-      letter = @lowercase.key([braille_array[0][index], braille_array[1][index], braille_array[2][index]])
-      text_string << letter
+      braille_char_array = get_braille_char_array(braille_array, index)
+      if braille_char_array == ["..", "..", ".0"]
+        @uppercase_switch = true
+      elsif braille_char_array == [".0", ".0", "00"]
+        @number_switch = true
+      else
+        add_to_text_string(braille_char_array, braille_array, index)
+      end
     end
-    text_string
+    @text_string
+  end
+
+  def add_to_text_string(braille_char_array, braille_array, index)
+    if @number_switch == true
+      @text_string << @numbers.key(braille_char_array)
+      @number_switch = false if get_braille_char_array(braille_array, index + 1) == ["..", "..", ".."]
+    elsif @uppercase_switch == true
+      @text_string << @lowercase.key(braille_char_array).upcase
+      @uppercase_switch = false
+    else
+      @text_string << @lowercase.key(braille_char_array)
+    end
+  end
+
+  def get_braille_char_array(braille_array, index)
+    braille_char_array = [braille_array[0][index], braille_array[1][index], braille_array[2][index]]
   end
 end
-
-# translator = BrailleTranslator.new
-# require "pry"; binding.pry
-
-#def char_to_braille
-# braille_string = String.new
-# text.each_char do |char|
-#   braille_string += @lowercase[char.to_sym][0]
-# end
-# braille_string += "\n"
-# text.each_char do |char|
-#   braille_string += @lowercase[char.to_sym][1]
-# end
-# braille_string += "\n"
-# text.each_char do |char|
-#   braille_string += @lowercase[char.to_sym][2]
-# end
-# braille_string
-#end
