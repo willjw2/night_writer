@@ -49,7 +49,14 @@ class NightReader < BrailleTranslator
     end
     combined_array
   end
-
+  
+  def write_to_file
+    text_translation = braille_to_text(get_file_braille_array)
+    File.open(@text_file, "w+") do |file|
+      file.write(text_translation)
+      file.close
+    end
+  end
 end
 
 #ruby lib/night_read.rb braille.txt new_message.txt
