@@ -117,33 +117,28 @@ class BrailleTranslator
   def create_braille_string(braille_lines, braille_char_num)
     braille_string = String.new
     if braille_char_num > 40
-      #WIP
-      rows = braille_char_num / 40
-      extra_chars = braille_char_num % 40
-      rows.times do |row_num|
-        start_indice = row_num * 80
-        end_indice = ((row_num + 1) * 80) - 1
-        braille_string += braille_lines[1][start_indice..end_indice]
-        braille_string += "\n"
-        braille_string += braille_lines[2][start_indice..end_indice]
-        braille_string += "\n"
-        braille_string += braille_lines[3][start_indice..end_indice]
-        braille_string += "\n"
-      end
-      start_indice = (rows * 80)
-      braille_string += braille_lines[1][start_indice..]
-      braille_string += "\n"
-      braille_string += braille_lines[2][start_indice..]
-      braille_string += "\n"
-      braille_string += braille_lines[3][start_indice..]
+      braille_string = create_long_braille_string(braille_lines, braille_char_num, braille_string)
     else
-      braille_string += braille_lines[1]
-      braille_string += "\n"
-      braille_string += braille_lines[2]
-      braille_string += "\n"
-      braille_string += braille_lines[3]
+      braille_string += "#{braille_lines[1]}\n"
+      braille_string += "#{braille_lines[2]}\n"
+      braille_string += "#{braille_lines[3]}"
     end
     braille_string
+  end
+
+  def create_long_braille_string(braille_lines, braille_char_num, braille_string)
+    rows = braille_char_num / 40
+    rows.times do |row_num|
+      start_indice = row_num * 80
+      end_indice = ((row_num + 1) * 80) - 1
+      braille_string += "#{braille_lines[1][start_indice..end_indice]}\n"
+      braille_string += "#{braille_lines[2][start_indice..end_indice]}\n"
+      braille_string += "#{braille_lines[3][start_indice..end_indice]}\n"
+    end
+    start_indice = (rows * 80)
+    braille_string += "#{braille_lines[1][start_indice..]}\n"
+    braille_string += "#{braille_lines[2][start_indice..]}\n"
+    braille_string += "#{braille_lines[3][start_indice..]}"
   end
 
   def braille_to_text(braille_array)
