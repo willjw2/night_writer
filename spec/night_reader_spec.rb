@@ -15,14 +15,28 @@ RSpec.describe NightReader do
       expect {night_reader.print_confirmation}.to output("Created 'original_message.txt' containing 5 characters\n").to_stdout
     end
   end
-  describe '#get_file_braille' do
-    
-  end
-  describe '#get_file_characters' do
-    it "can return the number of braille characters in a file" do
-      allow(File).to receive(:readlines).and_return(["0.0.0.0.0.\n00.00.0..0\n....0.0.0."])
+  describe '#get_file_braille_array' do
+    # WIP
+    it "can read a braille file into an array" do
+      allow(File).to receive(:readlines).and_return(["0.0.0.0.0.\n", "00.00.0..0\n", "....0.0.0."])
       night_reader = NightReader.new("braille.txt", "original_message.txt")
-      expect(night_reader.get_file_characters).to eq(5)
+      expect(night_reader.get_file_braille_array).to eq([["0.", "0.", "0.", "0.", "0."],
+                                                         ["00", ".0", "0.", "0.", ".0"],
+                                                         ["..", "..", "0.", "0.", "0."]])
+    end
+    it "can read a braille file with more than one braille line into an array" do
+      allow(File).to receive(:readlines).and_return(["0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.\n",
+                                                     "................................................................................\n",
+                                                     "................................................................................\n",
+                                                     "0.\n",
+                                                     "..\n",
+                                                     ".."])
+      night_reader = NightReader.new("braille.txt", "original_message.txt")
+      expect(night_reader.get_file_braille_array).to eq([
+        ["0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0.","0."],
+        ["..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..",".."],
+        ["..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..",".."]])
     end
   end
+  
 end
