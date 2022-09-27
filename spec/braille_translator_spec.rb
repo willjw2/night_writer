@@ -14,13 +14,9 @@ RSpec.describe BrailleTranslator do
     end
   end
   describe '#char_to_braille' do
-    it "can return a string of text translated to braille" do
+    it "can return a string of lowercase text translated to braille" do
       translator = BrailleTranslator.new
       expect(translator.char_to_braille("hello")).to eq("0.0.0.0.0.\n00.00.0..0\n....0.0.0.")
-    end
-    xit "can return all lowercase letters translated to braille" do
-      translator = BrailleTranslator.new
-      expect(translator.char_to_braille("abcdefghijklmnopqrstuvwxyz")).to eq("0.0.00000.00000..0.00.0.00000.00000..0.00.0..000000.\n..0....0.00.00000.00..0....0.00.00000.00..0.00...0.0\n....................0.0.0.0.0.0.0.0.0.0.0000.0000000")
     end
     it "can return capital letters translated to braille" do
       translator = BrailleTranslator.new
@@ -56,10 +52,14 @@ RSpec.describe BrailleTranslator do
       expect(text).to eq("hello")
     end
     it "can convert a braille array with numbers into text" do
-      
+      translator = BrailleTranslator.new
+      text = translator.braille_to_text([[".0", "0.", "0.", "00"], [".0", "..", "0.", ".."], ["00", "..", "..", ".."]])
+      expect(text).to eq("123")
     end
     it "can convert a braille array with capitals into text" do
-
+      translator = BrailleTranslator.new
+      text = translator.braille_to_text([["..", "0.", "0.", "00"], ["..", "00", ".0", ".0"], [".0", "..", "..", "00"]])
+      expect(text).to eq("Hey")
     end
   end
 end
