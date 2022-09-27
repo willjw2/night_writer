@@ -57,5 +57,3 @@ class NightReader < BrailleTranslator
     true
   end
 end
-
-#ruby lib/night_read.rb braille.txt new_message.txt

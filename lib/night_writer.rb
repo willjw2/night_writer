@@ -30,5 +30,4 @@ class NightWriter < BrailleTranslator
   end
 end
 
-#ruby night_write.rb message.txt braille.txt
 #message = File.readlines("./docs/#{ARGV[0]}").map(&:chomp).join
