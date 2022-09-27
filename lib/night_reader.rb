@@ -20,7 +20,6 @@ class NightReader < BrailleTranslator
   end
 
   def get_file_braille_array
-    #WIP
     read_lines = File.readlines(@braille_file)
     read_text = read_lines.join
     read_text.gsub!("\n", " ")
