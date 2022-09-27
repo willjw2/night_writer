@@ -38,5 +38,11 @@ RSpec.describe NightReader do
         ["..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..","..",".."]])
     end
   end
+  describe '#combine_braille_array' do
+    it "can combine a braille array of more than 1 braille line" do
+      night_reader = NightReader.new("braille.txt", "original_message.txt")
+      expect(night_reader.combine_braille_array([[".."], [".."], [".."], ["00"], ["00"], ["00"]])).to eq([["..", "00"], ["..", "00"], ["..", "00"]])
+    end
+  end
   
 end
